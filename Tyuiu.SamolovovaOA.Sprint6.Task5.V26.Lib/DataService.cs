@@ -4,7 +4,7 @@ using System.IO;
 using tyuiu.cources.programming.interfaces.Sprint6;
 namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26.Lib
 {
-    public class DataService
+    public class DataService : ISprint6Task5V26
     {
         public double[] LoadFromDataFile(string path)
         {
