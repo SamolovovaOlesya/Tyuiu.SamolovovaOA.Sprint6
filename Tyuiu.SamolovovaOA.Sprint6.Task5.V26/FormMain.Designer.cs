@@ -20,21 +20,17 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
             {
                 string path = @"C:\DataSprint6\InPutFileTask5V26.txt";
 
-                // Если файла нет - создаем
                 if (!File.Exists(path))
                 {
                     CreateTestFile(path);
                 }
 
-                // Чтение данных из файла
                 string[] lines = File.ReadAllLines(path);
 
-                // Очищаем DataGridView и Chart
                 dataGridViewAll_SOA.Rows.Clear();
                 dataGridViewDivisible_SOA.Rows.Clear();
                 chart_SOA.Series[0].Points.Clear();
 
-                // Добавляем столбцы в DataGridView (если их нет)
                 if (dataGridViewAll_SOA.Columns.Count == 0)
                 {
                     dataGridViewAll_SOA.Columns.Add("Index", "№");
@@ -52,24 +48,18 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                     if (string.IsNullOrWhiteSpace(line))
                         continue;
 
-                    // Парсим число (учёт разделителя запятой для десятичных дробей)
                     if (double.TryParse(line.Replace(',', '.'), System.Globalization.NumberStyles.Any,
                         System.Globalization.CultureInfo.InvariantCulture, out double value))
                     {
-                        // Округляем до 3 знаков после запятой
                         double roundedValue = Math.Round(value, 3);
 
-                        // Добавляем ВСЕ числа в первую таблицу
                         dataGridViewAll_SOA.Rows.Add(allIndex, roundedValue.ToString("F3"));
                         allIndex++;
 
-                        // Проверяем, что число кратно 5
-                        if (Math.Abs(value % 5) < 0.001) // Учитываем погрешность для вещественных чисел
+                        if (Math.Abs(value % 5) < 0.001)
                         {
-                            // Добавляем кратные 5 во вторую таблицу
                             dataGridViewDivisible_SOA.Rows.Add(divisibleIndex, roundedValue.ToString("F3"));
 
-                            // Добавляем в диаграмму
                             chart_SOA.Series[0].Points.AddXY(divisibleIndex, roundedValue);
                             chart_SOA.Series[0].Points.Last().ToolTip = $"Значение: {roundedValue:F3}";
 
@@ -78,7 +68,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                     }
                 }
 
-                // Настройка диаграммы
                 chart_SOA.ChartAreas[0].AxisX.Title = "Номер элемента";
                 chart_SOA.ChartAreas[0].AxisY.Title = "Значение";
                 chart_SOA.Series[0].ChartType = SeriesChartType.Column;
@@ -86,7 +75,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                 chart_SOA.Titles.Clear();
                 chart_SOA.Titles.Add("Диаграмма значений (кратные 5)");
 
-                // Подсветка столбцов
                 foreach (var point in chart_SOA.Series[0].Points)
                 {
                     point.Color = System.Drawing.Color.DodgerBlue;
@@ -94,7 +82,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                     point.BorderWidth = 2;
                 }
 
-                // Статистика
                 labelInfo_SOA.Text = $"Всего чисел: {allIndex - 1}, Кратных 5: {divisibleIndex - 1}";
 
                 MessageBox.Show($"Обработано {lines.Length} строк.\n" +
@@ -204,7 +191,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            // Автоматически загружаем данные при запуске
             buttonOpenFile_SOA.PerformClick();
         }
     }
