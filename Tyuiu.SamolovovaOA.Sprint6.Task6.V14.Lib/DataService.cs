@@ -8,7 +8,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
         {
         public string CollectTextFromFile(string path)
             {
-                // Создаем файл если его нет
                 if (!File.Exists(path))
                 {
                     string dir = Path.GetDirectoryName(path);
@@ -25,7 +24,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
 
                 string result = "";
 
-                // Просто читаем файл и обрабатываем
                 string text = File.ReadAllText(path);
                 string[] words = text.Split(new char[] { ' ', '\n', '\r', '\t' },
                                           StringSplitOptions.RemoveEmptyEntries);
