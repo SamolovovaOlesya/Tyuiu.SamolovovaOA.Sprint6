@@ -31,6 +31,8 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Test
 
             int[,] result = ds.GetMatrix(path);
 
+            Assert.AreEqual(10, result.GetLength(0));
+
             Assert.AreEqual(-18, result[4, 0]);
             Assert.AreEqual(11, result[4, 1]);
             Assert.AreEqual(18, result[4, 2]);

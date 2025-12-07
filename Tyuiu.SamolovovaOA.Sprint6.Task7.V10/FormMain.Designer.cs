@@ -53,7 +53,9 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10
 
         private void LoadCSVFile(string filePath)
         {
-            string[] lines = File.ReadAllLines(filePath);
+            string[] allLines = File.ReadAllLines(filePath);
+            var lines = allLines.Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
+
             rows = lines.Length;
             cols = 10;
 
