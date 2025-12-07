@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using tyuiu.cources.programming.interfaces.Sprint6;
 
@@ -10,19 +8,30 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
     {
         public string CollectTextFromFile(string path)
         {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Путь к файлу не может быть пустым", nameof(path));
+            }
+
             string result = "";
 
             using (StreamReader reader = new StreamReader(path))
             {
-                string line;
+                string? line;
                 while ((line = reader.ReadLine()) != null)
                 {
-                    string[] words = line.Split(' ');
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+
+                    string[] words = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
                     foreach (string word in words)
                     {
-                        if (word.ToLower().IndexOf('z') >= 0)
+                        if (!string.IsNullOrEmpty(word))
                         {
-                            result += word + " ";
+                            if (word.ToLower().IndexOf('z') >= 0)
+                            {
+                                result += word + " ";
+                            }
                         }
                     }
                 }
