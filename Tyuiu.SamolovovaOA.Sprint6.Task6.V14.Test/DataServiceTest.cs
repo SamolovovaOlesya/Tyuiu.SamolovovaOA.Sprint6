@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.IO;
+using System.Text;
 using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
 
 namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
@@ -16,8 +17,8 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         {
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
 
-            string? directory = Path.GetDirectoryName(testFilePath);
-            if (directory != null && !Directory.Exists(directory))
+            string directory = Path.GetDirectoryName(testFilePath);
+            if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
             }
@@ -27,13 +28,18 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
                 "ELHLVt AucHJjziZ aQsI U raHsMtQF\n" +
                 "EgQpG yhOkcN dsE jiUFMDjMsEervIz\n" +
                 "jojh Aj ZujmucpYQE dOo QybRwHOetJ\n" +
-                "ziwVyU odBBKi WNcOobILAM USuVFcGp");
+                "ziwVyU odBBKi WNcOobILAM USuVFcGp",
+                Encoding.UTF8);
 
             try
             {
                 string result = ds.CollectTextFromFile(testFilePath);
 
                 Assert.AreEqual(expected, result);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Тест не прошел. Ошибка: {ex.Message}");
             }
             finally
             {
@@ -48,12 +54,22 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         public void EmptyFile_ReturnsEmptyString()
         {
             string emptyFilePath = @"C:\DataSprint6\EmptyTestFile.txt";
-            File.WriteAllText(emptyFilePath, "");
+            string directory = Path.GetDirectoryName(emptyFilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            File.WriteAllText(emptyFilePath, "", Encoding.UTF8);
 
             try
             {
                 string result = ds.CollectTextFromFile(emptyFilePath);
                 Assert.AreEqual("", result);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail($"Тест не прошел. Ошибка: {ex.Message}");
             }
             finally
             {
