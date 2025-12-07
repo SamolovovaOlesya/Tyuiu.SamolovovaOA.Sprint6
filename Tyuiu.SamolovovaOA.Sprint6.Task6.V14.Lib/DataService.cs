@@ -19,6 +19,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
             }
 
             string result = "";
+
             string[] lines = File.ReadAllLines(path);
 
             foreach (string line in lines)
@@ -28,7 +29,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
 
                 foreach (string word in words)
                 {
-                    if (word.IndexOf('z', StringComparison.OrdinalIgnoreCase) >= 0)
+                    if (word.Contains("z", StringComparison.OrdinalIgnoreCase))
                     {
                         if (!string.IsNullOrEmpty(result))
                             result += " ";
