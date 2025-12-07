@@ -15,32 +15,25 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
 
             if (!File.Exists(path))
             {
-                string? dir = Path.GetDirectoryName(path);
-                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
-                {
-                    Directory.CreateDirectory(dir);
-                }
-
-                File.WriteAllText(path,
-                    "GzTsc rdRibhX swrfhvUjC NSRnNINXl\n" +
-                    "ELHLVt AucHJjziZ aQsI U raHsMtQF\n" +
-                    "EgQpG yhOkcN dsE jiUFMDjMsEervIz\n" +
-                    "jojh Aj ZujmucpYQE dOo QybRwHOetJ\n" +
-                    "ziwVyU odBBKi WNcOobILAM USuVFcGp");
+                throw new FileNotFoundException($"Файл не найден: {path}", path);
             }
 
             string result = "";
 
-            string text = File.ReadAllText(path);
-            string[] words = text.Split(new char[] { ' ', '\n', '\r', '\t' },
-                                      StringSplitOptions.RemoveEmptyEntries);
+            string[] lines = File.ReadAllLines(path);
 
-            foreach (string word in words)
+            foreach (string line in lines)
             {
-                if (word.Contains("z") || word.Contains("Z"))
+                string[] words = line.Split(new char[] { ' ', '\t', '\r', '\n' },
+                                          StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (string word in words)
                 {
-                    if (result.Length > 0) result += " ";
-                    result += word;
+                    if (word.IndexOf('z', StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        if (result.Length > 0) result += " ";
+                        result += word;
+                    }
                 }
             }
 
