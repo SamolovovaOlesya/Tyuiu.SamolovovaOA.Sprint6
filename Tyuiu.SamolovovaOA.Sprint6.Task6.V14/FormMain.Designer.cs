@@ -28,7 +28,13 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14
             {
                 try
                 {
-                    string filePath = openFileDialog.FileName;
+                    string filePath = openFileDialog.FileName ?? string.Empty;
+                    if (string.IsNullOrEmpty(filePath))
+                    {
+                        MessageBox.Show("Файл не выбран", "Ошибка",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
 
                     textBoxIn_SOA.Text = File.ReadAllText(filePath);
 
@@ -86,8 +92,16 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14
             {
                 try
                 {
-                    File.WriteAllText(saveDialog.FileName, textBoxOut_SOA.Text);
-                    MessageBox.Show($"Результат сохранен в файл:\n{saveDialog.FileName}",
+                    string filePath = saveDialog.FileName ?? string.Empty;
+                    if (string.IsNullOrEmpty(filePath))
+                    {
+                        MessageBox.Show("Не указано имя файла для сохранения",
+                            "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    File.WriteAllText(filePath, textBoxOut_SOA.Text);
+                    MessageBox.Show($"Результат сохранен в файл:\n{filePath}",
                         "Сохранено", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 catch (Exception ex)
@@ -107,6 +121,3 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14
         }
     }
 }
-
-
-

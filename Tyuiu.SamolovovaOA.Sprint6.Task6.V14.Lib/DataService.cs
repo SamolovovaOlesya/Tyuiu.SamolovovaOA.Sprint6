@@ -8,11 +8,18 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
     {
         public string CollectTextFromFile(string path)
         {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new ArgumentException("Путь к файлу не может быть null или пустым", nameof(path));
+            }
+
             if (!File.Exists(path))
             {
-                string dir = Path.GetDirectoryName(path);
-                if (!Directory.Exists(dir))
+                string? dir = Path.GetDirectoryName(path);
+                if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
+                {
                     Directory.CreateDirectory(dir);
+                }
 
                 File.WriteAllText(path,
                     "GzTsc rdRibhX swrfhvUjC NSRnNINXl\n" +
