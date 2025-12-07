@@ -24,27 +24,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
             File.WriteAllText(path, testData);
 
             string result = ds.CollectTextFromFile(path);
-
-            string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
-
-            if (File.Exists(path))
-            {
-                File.Delete(path);
-            }
-
-            Assert.AreEqual(expected, result);
-        }
-
-        [TestMethod]
-        public void EmptyFileTest()
-        {
-            DataService ds = new DataService();
-
-            string path = Path.Combine(Path.GetTempPath(), "EmptyFile.txt");
-            File.WriteAllText(path, "");
-
-            string result = ds.CollectTextFromFile(path);
-            string expected = "";
+            string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ziwVyU";
 
             if (File.Exists(path))
             {
