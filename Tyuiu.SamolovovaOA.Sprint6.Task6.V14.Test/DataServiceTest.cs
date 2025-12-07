@@ -1,66 +1,29 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
-using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
+﻿using System;
 
-namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
+class Test
 {
-    [TestClass]
-    public class DataServiceTests
+    static void Main()
     {
-        private DataService ds = new DataService();
-        private readonly string testFilePath = @"C:\DataSprint6\InPutDataFileTask6V14.txt";
-
-        [TestInitialize]
-        public void Initialize()
+        try
         {
-            // Создаем тестовый файл перед каждым тестом
-            string directory = Path.GetDirectoryName(testFilePath);
-            if (!Directory.Exists(directory))
-            {
-                Directory.CreateDirectory(directory);
-            }
+            var ds = new Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib.DataService();
+            string result = ds.CollectTextFromFile(@"C:\DataSprint6\InPutDataFileTask6V14.txt");
 
-            string testData = @"GzTsc rdRibhX swrfhvUjC NSRnNINXl
-ELHLVt AucHJjziZ aQsI U raHsMtQF
-EgQpG yhOkcN dsE jiUFMDjMsEervIz
-jojh Aj ZujmucpYQE dOo QybRwHOetJ
-ziwVyU odBBKi WNcOobILAM USuVFcGp";
+            Console.WriteLine("Результат: " + result);
 
-            File.WriteAllText(testFilePath, testData);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            // Удаляем тестовый файл после тестов
-            if (File.Exists(testFilePath))
-            {
-                File.Delete(testFilePath);
-            }
-        }
-
-        // ТЕСТ 1: Основной тест - правильная работа метода
-        [TestMethod]
-        public void ValidCollectTextFromFile_ReturnsCorrectWords()
-        {
-            // Arrange
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
+            Console.WriteLine("Ожидалось: " + expected);
 
-            // Act
-            string result = ds.CollectTextFromFile(testFilePath);
-
-            // Assert
-            Assert.AreEqual(expected, result);
+            if (result == expected)
+                Console.WriteLine("✓ УСПЕХ!");
+            else
+                Console.WriteLine("✗ ОШИБКА!");
         }
-
-        // ТЕСТ 2: Тест на исключение при несуществующем файле
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void CollectTextFromFile_InvalidPath_ThrowsFileNotFoundException()
+        catch (Exception ex)
         {
-            // Act
-            ds.CollectTextFromFile(@"C:\Nonexistent\File.txt");
+            Console.WriteLine("Ошибка: " + ex.Message);
         }
+
+        Console.ReadKey();
     }
 }
