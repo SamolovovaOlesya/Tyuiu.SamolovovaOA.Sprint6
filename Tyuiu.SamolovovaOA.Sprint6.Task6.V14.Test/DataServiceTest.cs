@@ -24,6 +24,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
             File.WriteAllText(path, testData);
 
             string result = ds.CollectTextFromFile(path);
+
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
 
             if (File.Exists(path))
