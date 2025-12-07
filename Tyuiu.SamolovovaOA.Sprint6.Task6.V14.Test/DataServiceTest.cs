@@ -1,39 +1,66 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
+
 namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
 {
-    class Program
+    [TestClass]
+    public class DataServiceTests
     {
-        static void Main()
+        private DataService ds = new DataService();
+        private readonly string testFilePath = @"C:\DataSprint6\InPutDataFileTask6V14.txt";
+
+        [TestInitialize]
+        public void Initialize()
         {
-            string testFile = "test.txt";
-            File.WriteAllText(testFile,
-                "GzTsc rdRibhX swrfhvUjC NSRnNINXl\n" +
-                "ELHLVt AucHJjziZ aQsI U raHsMtQF\n" +
-                "EgQpG yhOkcN dsE jiUFMDjMsEervIz\n" +
-                "jojh Aj ZujmucpYQE dOo QybRwHOetJ\n" +
-                "ziwVyU odBBKi WNcOobILAM USuVFcGp");
+            // Создаем тестовый файл перед каждым тестом
+            string directory = Path.GetDirectoryName(testFilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
 
-            Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib.DataService ds =
-                new Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib.DataService();
+            string testData = @"GzTsc rdRibhX swrfhvUjC NSRnNINXl
+ELHLVt AucHJjziZ aQsI U raHsMtQF
+EgQpG yhOkcN dsE jiUFMDjMsEervIz
+jojh Aj ZujmucpYQE dOo QybRwHOetJ
+ziwVyU odBBKi WNcOobILAM USuVFcGp";
 
-            string result = ds.CollectTextFromFile(testFile);
+            File.WriteAllText(testFilePath, testData);
+        }
 
-            Console.WriteLine("Результат:");
-            Console.WriteLine(result);
+        [TestCleanup]
+        public void Cleanup()
+        {
+            // Удаляем тестовый файл после тестов
+            if (File.Exists(testFilePath))
+            {
+                File.Delete(testFilePath);
+            }
+        }
 
+        // ТЕСТ 1: Основной тест - правильная работа метода
+        [TestMethod]
+        public void ValidCollectTextFromFile_ReturnsCorrectWords()
+        {
+            // Arrange
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
-            Console.WriteLine("\nОжидалось:");
-            Console.WriteLine(expected);
 
-            if (result == expected)
-                Console.WriteLine("\n✓ КОМПИЛЯЦИЯ И ТЕСТ ПРОЙДЕНЫ!");
-            else
-                Console.WriteLine($"\n✗ Результат не совпадает. Длина: {result.Length}, ожидалось: {expected.Length}");
+            // Act
+            string result = ds.CollectTextFromFile(testFilePath);
 
-            File.Delete(testFile);
-            Console.ReadKey();
+            // Assert
+            Assert.AreEqual(expected, result);
+        }
+
+        // ТЕСТ 2: Тест на исключение при несуществующем файле
+        [TestMethod]
+        [ExpectedException(typeof(FileNotFoundException))]
+        public void CollectTextFromFile_InvalidPath_ThrowsFileNotFoundException()
+        {
+            // Act
+            ds.CollectTextFromFile(@"C:\Nonexistent\File.txt");
         }
     }
 }
