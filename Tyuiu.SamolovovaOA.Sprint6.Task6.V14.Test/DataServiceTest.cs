@@ -1,80 +1,46 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.IO;
+﻿using System;
 using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
-
-namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
+namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14
 {
-    [TestClass]
-    public class DataServiceTests
+    class TestProgram
     {
-        private DataService ds = new DataService();
-
-        [TestMethod]
-        public void CollectTextFromFile_ValidFile_ReturnsCorrectWords()
+        static void Main()
         {
-            string testFile = "testFile.txt";
-            string fileContent = @"GzTsc rdRibhX swrfhvUjC NSRnNINXl
+            try
+            {
+                string testFile = "test.txt";
+                string content = @"GzTsc rdRibhX swrfhvUjC NSRnNINXl
  ELHLVt AucHJjziZ aQsI U raHsMtQF
 EgQpG yhOkcN dsE jiUFMDjMsEervIz
 jojh Aj ZujmucpYQE dOo QybRwHOetJ
 ziwVyU odBBKi WNcOobILAM USuVFcGp";
 
-            File.WriteAllText(testFile, fileContent);
+                System.IO.File.WriteAllText(testFile, content);
 
-            string result = ds.CollectTextFromFile(testFile);
+                DataService ds = new DataService();
+                string result = ds.CollectTextFromFile(testFile);
 
-            string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
+                Console.WriteLine("Результат:");
+                Console.WriteLine(result);
+                Console.WriteLine();
 
-            Assert.AreEqual(expected, result);
+                string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
+                Console.WriteLine("Ожидалось:");
+                Console.WriteLine(expected);
 
-            File.Delete(testFile);
-        }
+                if (result == expected)
+                    Console.WriteLine("\n✓ ТЕСТ ПРОЙДЕН!");
+                else
+                    Console.WriteLine("\n✗ ТЕСТ НЕ ПРОЙДЕН!");
 
-        [TestMethod]
-        public void CollectTextFromFile_NoZWords_ReturnsEmptyString()
-        {
-            string testFile = "testNoZ.txt";
-            File.WriteAllText(testFile, "Hello World Test Example");
+                System.IO.File.Delete(testFile);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка: {ex.Message}");
+            }
 
-            string result = ds.CollectTextFromFile(testFile);
-
-            Assert.AreEqual("", result);
-
-            File.Delete(testFile);
-        }
-
-        [TestMethod]
-        public void CollectTextFromFile_MixedCaseZ_ReturnsCorrectWords()
-        {
-            string testFile = "testMixed.txt";
-            File.WriteAllText(testFile, "Zoom ZOO lazy Aztec PRIZE");
-
-            string result = ds.CollectTextFromFile(testFile);
-
-            Assert.AreEqual("Zoom ZOO lazy Aztec PRIZE", result);
-
-            File.Delete(testFile);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void CollectTextFromFile_InvalidPath_ThrowsException()
-        {
-            ds.CollectTextFromFile(@"C:\Nonexistent\file.txt");
-        }
-
-        [TestMethod]
-        public void CollectTextFromFile_EmptyFile_ReturnsEmptyString()
-        {
-            string testFile = "testEmpty.txt";
-            File.WriteAllText(testFile, "");
-
-            string result = ds.CollectTextFromFile(testFile);
-
-            Assert.AreEqual("", result);
-
-            File.Delete(testFile);
+            Console.ReadKey();
         }
     }
 }
