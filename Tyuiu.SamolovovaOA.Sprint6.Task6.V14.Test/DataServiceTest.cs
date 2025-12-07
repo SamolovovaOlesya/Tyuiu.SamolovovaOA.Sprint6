@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-
-namespace CompileTest
+using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
+namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
 {
     class Program
     {
