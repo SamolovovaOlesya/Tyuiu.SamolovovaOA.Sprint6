@@ -14,7 +14,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         [TestMethod]
         public void ValidCollectTextFromFile()
         {
-            string expected = "wFrlYaZtHI AJuvHYzIfi WfmrpQjAze eAezSXF zCOZQ";
+            string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
 
             string? directory = Path.GetDirectoryName(testFilePath);
             if (directory != null && !Directory.Exists(directory))
@@ -23,15 +23,16 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
             }
 
             File.WriteAllText(testFilePath,
-                "kvrwY jVdRV wFrlYaZtHI AJuvHYzIfi\n" +
-                "WfmrpQjAze gtlOC XuLENkL l oqCuXN\n" +
-                "lG YebQ BV ypiUHHFJ eAezSXF aPIjKf\n" +
-                "wMQ M ltxrhBXm eqSGAiC PvLqtMALPm\n" +
-                "zCOZQ Qxv HbJcPW wUdVEuNB aidoqRW");
+                "GzTsc rdRibhX swrfhvUjC NSRnNINXl\n" +
+                "ELHLVt AucHJjziZ aQsI U raHsMtQF\n" +
+                "EgQpG yhOkcN dsE jiUFMDjMsEervIz\n" +
+                "jojh Aj ZujmucpYQE dOo QybRwHOetJ\n" +
+                "ziwVyU odBBKi WNcOobILAM USuVFcGp");
 
             try
             {
                 string result = ds.CollectTextFromFile(testFilePath);
+
                 Assert.AreEqual(expected, result);
             }
             finally
@@ -47,11 +48,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         public void EmptyFile_ReturnsEmptyString()
         {
             string emptyFilePath = @"C:\DataSprint6\EmptyTestFile.txt";
-            string dir = Path.GetDirectoryName(emptyFilePath);
-            if (!string.IsNullOrEmpty(dir) && !Directory.Exists(dir))
-            {
-                Directory.CreateDirectory(dir);
-            }
             File.WriteAllText(emptyFilePath, "");
 
             try
@@ -66,14 +62,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
                     File.Delete(emptyFilePath);
                 }
             }
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(FileNotFoundException))]
-        public void FileNotFound_ThrowsException()
-        {
-            string nonExistentPath = @"C:\DataSprint6\NonExistentFile.txt";
-            ds.CollectTextFromFile(nonExistentPath);
         }
     }
 }

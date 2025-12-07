@@ -19,7 +19,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
             }
 
             string result = "";
-
             string[] lines = File.ReadAllLines(path);
 
             foreach (string line in lines)
@@ -31,7 +30,8 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
                 {
                     if (word.IndexOf('z', StringComparison.OrdinalIgnoreCase) >= 0)
                     {
-                        if (result.Length > 0) result += " ";
+                        if (!string.IsNullOrEmpty(result))
+                            result += " ";
                         result += word;
                     }
                 }
