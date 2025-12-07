@@ -8,7 +8,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26.Lib
 {
     public class DataService : ISprint6Task5V26
     {
-        private readonly string filePath = @"C:\DataSprint6\InPutDataFileTask5V26.txt";
+        private readonly string filePath = @"C:\DataSprint6\InPutFileTask5V26.txt";
 
         public double[] LoadFromDataFile(string path)
         {
