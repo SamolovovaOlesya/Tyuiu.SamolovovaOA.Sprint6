@@ -1,29 +1,130 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib;
 
-class Test
+namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
 {
-    static void Main()
+    [TestClass]
+    public class DataServiceTests
     {
-        try
+        private DataService ds = new DataService();
+        private readonly string testFilePath = @"C:\DataSprint6\InPutDataFileTask6V14.txt";
+
+        [TestMethod]
+        public void ValidCollectTextFromFile()
         {
-            var ds = new Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib.DataService();
-            string result = ds.CollectTextFromFile(@"C:\DataSprint6\InPutDataFileTask6V14.txt");
-
-            Console.WriteLine("Результат: " + result);
-
+            // Arrange - подготовка теста
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
-            Console.WriteLine("Ожидалось: " + expected);
 
-            if (result == expected)
-                Console.WriteLine("✓ УСПЕХ!");
-            else
-                Console.WriteLine("✗ ОШИБКА!");
+            // Создаем тестовый файл
+            string directory = Path.GetDirectoryName(testFilePath);
+            if (!Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            File.WriteAllText(testFilePath,
+                "GzTsc rdRibhX swrfhvUjC NSRnNINXl\n" +
+                "ELHLVt AucHJjziZ aQsI U raHsMtQF\n" +
+                "EgQpG yhOkcN dsE jiUFMDjMsEervIz\n" +
+                "jojh Aj ZujmucpYQE dOo QybRwHOetJ\n" +
+                "ziwVyU odBBKi WNcOobILAM USuVFcGp");
+
+            try
+            {
+                // Act - выполнение тестируемого метода
+                string result = ds.CollectTextFromFile(testFilePath);
+
+                // Assert - проверка результата
+                Assert.AreEqual(expected, result);
+            }
+            finally
+            {
+                // Очистка после теста
+                if (File.Exists(testFilePath))
+                {
+                    File.Delete(testFilePath);
+                }
+            }
         }
-        catch (Exception ex)
+        [TestMethod]
+        public void EmptyFile_ReturnsEmptyString()
         {
-            Console.WriteLine("Ошибка: " + ex.Message);
+            // Arrange
+            string emptyFilePath = @"C:\DataSprint6\EmptyTestFile.txt";
+            File.WriteAllText(emptyFilePath, "");
+
+            try
+            {
+                // Act
+                string result = ds.CollectTextFromFile(emptyFilePath);
+
+                // Assert
+                Assert.AreEqual("", result);
+            }
+            finally
+            {
+                // Очистка
+                if (File.Exists(emptyFilePath))
+                {
+                    File.Delete(emptyFilePath);
+                }
+            }
         }
 
-        Console.ReadKey();
+        [TestMethod]
+        public void NoZWords_ReturnsEmptyString()
+        {
+            // Arrange
+            string noZFilePath = @"C:\DataSprint6\NoZFile.txt";
+            File.WriteAllText(noZFilePath, "Hello World Test ABC");
+
+            try
+            {
+                // Act
+                string result = ds.CollectTextFromFile(noZFilePath);
+
+                // Assert
+                Assert.AreEqual("", result);
+            }
+            finally
+            {
+                // Очистка
+                if (File.Exists(noZFilePath))
+                {
+                    File.Delete(noZFilePath);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void WordsWithZ_ReturnsCorrectWords()
+        {
+            // Arrange
+            string mixedFilePath = @"C:\DataSprint6\MixedFile.txt";
+            File.WriteAllText(mixedFilePath,
+                "Zoom test ZOO example\n" +
+                "lazy zebra AZTEC");
+
+            string expected = "Zoom ZOO lazy zebra AZTEC";
+
+            try
+            {
+                // Act
+                string result = ds.CollectTextFromFile(mixedFilePath);
+
+                // Assert
+                Assert.AreEqual(expected, result);
+            }
+            finally
+            {
+                // Очистка
+                if (File.Exists(mixedFilePath))
+                {
+                    File.Delete(mixedFilePath);
+                }
+            }
+        }
     }
 }
