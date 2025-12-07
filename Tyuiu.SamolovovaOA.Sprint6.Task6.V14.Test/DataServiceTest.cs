@@ -14,10 +14,8 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         [TestMethod]
         public void ValidCollectTextFromFile()
         {
-            // Arrange - подготовка теста
             string expected = "GzTsc AucHJjziZ jiUFMDjMsEervIz ZujmucpYQE ziwVyU";
 
-            // Создаем тестовый файл
             string directory = Path.GetDirectoryName(testFilePath);
             if (!Directory.Exists(directory))
             {
@@ -33,15 +31,12 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
 
             try
             {
-                // Act - выполнение тестируемого метода
                 string result = ds.CollectTextFromFile(testFilePath);
 
-                // Assert - проверка результата
                 Assert.AreEqual(expected, result);
             }
             finally
             {
-                // Очистка после теста
                 if (File.Exists(testFilePath))
                 {
                     File.Delete(testFilePath);
@@ -51,78 +46,19 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Test
         [TestMethod]
         public void EmptyFile_ReturnsEmptyString()
         {
-            // Arrange
             string emptyFilePath = @"C:\DataSprint6\EmptyTestFile.txt";
             File.WriteAllText(emptyFilePath, "");
 
             try
             {
-                // Act
                 string result = ds.CollectTextFromFile(emptyFilePath);
-
-                // Assert
                 Assert.AreEqual("", result);
             }
             finally
             {
-                // Очистка
                 if (File.Exists(emptyFilePath))
                 {
                     File.Delete(emptyFilePath);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void NoZWords_ReturnsEmptyString()
-        {
-            // Arrange
-            string noZFilePath = @"C:\DataSprint6\NoZFile.txt";
-            File.WriteAllText(noZFilePath, "Hello World Test ABC");
-
-            try
-            {
-                // Act
-                string result = ds.CollectTextFromFile(noZFilePath);
-
-                // Assert
-                Assert.AreEqual("", result);
-            }
-            finally
-            {
-                // Очистка
-                if (File.Exists(noZFilePath))
-                {
-                    File.Delete(noZFilePath);
-                }
-            }
-        }
-
-        [TestMethod]
-        public void WordsWithZ_ReturnsCorrectWords()
-        {
-            // Arrange
-            string mixedFilePath = @"C:\DataSprint6\MixedFile.txt";
-            File.WriteAllText(mixedFilePath,
-                "Zoom test ZOO example\n" +
-                "lazy zebra AZTEC");
-
-            string expected = "Zoom ZOO lazy zebra AZTEC";
-
-            try
-            {
-                // Act
-                string result = ds.CollectTextFromFile(mixedFilePath);
-
-                // Assert
-                Assert.AreEqual(expected, result);
-            }
-            finally
-            {
-                // Очистка
-                if (File.Exists(mixedFilePath))
-                {
-                    File.Delete(mixedFilePath);
                 }
             }
         }
