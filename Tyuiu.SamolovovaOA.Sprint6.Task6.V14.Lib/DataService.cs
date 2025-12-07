@@ -22,6 +22,9 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
 
             string[] lines = File.ReadAllLines(path);
 
+            Console.WriteLine($"Читаем файл: {path}");
+            Console.WriteLine($"Количество строк: {lines.Length}");
+
             foreach (string line in lines)
             {
                 string[] words = line.Split(new char[] { ' ', '\t', '\r', '\n' },
@@ -38,6 +41,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task6.V14.Lib
                 }
             }
 
+            Console.WriteLine($"Результат: {result}");
             return result;
         }
     }
