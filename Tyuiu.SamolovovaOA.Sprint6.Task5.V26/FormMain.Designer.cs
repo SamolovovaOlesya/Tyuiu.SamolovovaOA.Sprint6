@@ -9,6 +9,9 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
 {
     public partial class FormMain : Form
     {
+        private DataService ds = new DataService();
+        private readonly string filePath = @"C:\DataSprint6\InPutFileTask5V26.txt";
+
         public FormMain()
         {
             InitializeComponent();
@@ -18,14 +21,14 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
         {
             try
             {
-                string path = @"C:\DataSprint6\InPutFileTask5V26.txt";
-
-                if (!File.Exists(path))
+                if (!File.Exists(filePath))
                 {
-                    CreateTestFile(path);
+                    CreateTestFile(filePath);
                 }
 
-                string[] lines = File.ReadAllLines(path);
+                string[] lines = File.ReadAllLines(filePath);
+
+                double[] divisibleNumbers = ds.LoadFromDataFile(filePath);
 
                 dataGridViewAll_SOA.Rows.Clear();
                 dataGridViewDivisible_SOA.Rows.Clear();
@@ -41,8 +44,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                 }
 
                 int allIndex = 1;
-                int divisibleIndex = 1;
-
                 foreach (string line in lines)
                 {
                     if (string.IsNullOrWhiteSpace(line))
@@ -52,20 +53,18 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26
                         System.Globalization.CultureInfo.InvariantCulture, out double value))
                     {
                         double roundedValue = Math.Round(value, 3);
-
                         dataGridViewAll_SOA.Rows.Add(allIndex, roundedValue.ToString("F3"));
                         allIndex++;
-
-                        if (Math.Abs(value % 5) < 0.001)
-                        {
-                            dataGridViewDivisible_SOA.Rows.Add(divisibleIndex, roundedValue.ToString("F3"));
-
-                            chart_SOA.Series[0].Points.AddXY(divisibleIndex, roundedValue);
-                            chart_SOA.Series[0].Points.Last().ToolTip = $"Значение: {roundedValue:F3}";
-
-                            divisibleIndex++;
-                        }
                     }
+                }
+
+                int divisibleIndex = 1;
+                foreach (double number in divisibleNumbers)
+                {
+                    dataGridViewDivisible_SOA.Rows.Add(divisibleIndex, number.ToString("F3"));
+                    chart_SOA.Series[0].Points.AddXY(divisibleIndex, number);
+                    chart_SOA.Series[0].Points.Last().ToolTip = $"Значение: {number:F3}";
+                    divisibleIndex++;
                 }
 
                 chart_SOA.ChartAreas[0].AxisX.Title = "Номер элемента";

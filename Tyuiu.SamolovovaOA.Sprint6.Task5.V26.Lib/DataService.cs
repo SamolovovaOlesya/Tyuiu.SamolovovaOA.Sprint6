@@ -38,7 +38,8 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task5.V26.Lib
                         double roundedNumber = Math.Round(number, 3);
 
                         double remainder = Math.Abs(roundedNumber % 5);
-                        if (remainder < 0.001 || Math.Abs(remainder - 5) < 0.001)
+                        if (remainder < 0.001 || Math.Abs(remainder - 5) < 0.001 ||
+                            Math.Abs(remainder + 5) < 0.001)
                         {
                             resultList.Add(roundedNumber);
                         }
