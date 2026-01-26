@@ -5,7 +5,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task0.V8.Lib
     {
         public double Calculate(int x)
         {
-            double res = (2 * Math.Pow(x, 2) - 1) / (Math.Sqrt(Math.Pow(x, 2) - 2));
+            double res = (Math.Pow(x, 2) - 1) / (Math.Sqrt(Math.Pow(x, 2) - 2));
             return Math.Round(res, 3);
         }
     }
