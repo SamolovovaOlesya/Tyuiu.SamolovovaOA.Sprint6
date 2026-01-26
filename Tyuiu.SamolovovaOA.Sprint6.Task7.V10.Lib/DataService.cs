@@ -8,7 +8,13 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
             string[] lines = File.ReadAllLines(path);
 
             int rows = lines.Length;
-            int columns = lines[0].Split(';').Length;
+            int columns = 0;
+            foreach (string line in lines)
+            {
+                int count = line.Split(';').Length;
+                if (count > columns)
+                    columns = count;
+            }
 
             int[,] matrix = new int[rows, columns];
 
@@ -18,6 +24,12 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
 
                 for (int j = 0; j < columns; j++)
                 {
+                    if (j >= values.Length)
+                    {
+                        matrix[i, j] = 0;
+                        continue;
+                    }
+
                     string cell = values[j].Trim();
 
                     matrix[i, j] = string.IsNullOrEmpty(cell)
