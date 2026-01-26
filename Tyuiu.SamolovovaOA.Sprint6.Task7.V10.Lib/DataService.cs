@@ -17,7 +17,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
                 string[] values = lines[i].Split(';');
                 for (int j = 0; j < columns; j++)
                 {
-                    matrix[i, j] = int.Parse(values[j]);
+                    matrix[i, j] = int.Parse(values[j].Trim());
                 }
             }
 
