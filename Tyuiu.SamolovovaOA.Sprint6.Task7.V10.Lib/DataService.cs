@@ -5,16 +5,11 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
     {
         public int[,] GetMatrix(string path)
         {
-            string[] lines = File.ReadAllLines(path);
+            string[] lines = File.ReadAllLines(path).Where(line => !string.IsNullOrWhiteSpace(line)).ToArray();
 
             int rows = lines.Length;
-            int columns = 0;
-            foreach (string line in lines)
-            {
-                int count = line.Split(';').Length;
-                if (count > columns)
-                    columns = count;
-            }
+
+            int columns = lines.Max(l => l.Split(';').Length);
 
             int[,] matrix = new int[rows, columns];
 
@@ -31,10 +26,7 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
                     }
 
                     string cell = values[j].Trim();
-
-                    matrix[i, j] = string.IsNullOrEmpty(cell)
-                        ? 0
-                        : int.Parse(cell);
+                    matrix[i, j] = string.IsNullOrEmpty(cell) ? 0 : int.Parse(cell);
                 }
             }
 
