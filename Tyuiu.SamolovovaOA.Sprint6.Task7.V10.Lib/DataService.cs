@@ -15,9 +15,14 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
             for (int i = 0; i < rows; i++)
             {
                 string[] values = lines[i].Split(';');
+
                 for (int j = 0; j < columns; j++)
                 {
-                    matrix[i, j] = int.Parse(values[j].Trim());
+                    string cell = values[j].Trim();
+
+                    matrix[i, j] = string.IsNullOrEmpty(cell)
+                        ? 0
+                        : int.Parse(cell);
                 }
             }
 
@@ -33,7 +38,6 @@ namespace Tyuiu.SamolovovaOA.Sprint6.Task7.V10.Lib
                     }
                 }
             }
-
 
             return matrix;
         }
